@@ -26,16 +26,24 @@ export default {
     },
     methods:{
         async getAnswer(){
-            this.answer = 'Pensando...'
-            const {answer, image} = await fetch('https://yesno.wtf/api').then(r => r.json())
+            try {
 
-            this.answer = answer === 'yes' ? 'Si!' : 'No!'
-            this.image = image
+                this.answer = 'Pensando...'
+                const {answer, image} = await fetch('https://yesno.wtf/api').then(r => r.json())
+    
+                this.answer = answer === 'yes' ? 'Si!' : 'No!'
+                this.image = image
+                
+            } catch (error) {
+                this.answer = 'No cargo'
+                this.image = null
+            }
         }
     },
     watch: {
         question(value, oldValue){
             this.isValidQuestion = false
+            console.log({value});
             if( !value.includes('?')) return
             this.isValidQuestion = true
 
